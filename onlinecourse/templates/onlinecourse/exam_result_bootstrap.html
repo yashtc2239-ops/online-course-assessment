@@ -1,0 +1,10 @@
+{% extends "onlinecourse/base.html" %}
+{% block content %}
+<div class="card shadow-sm border-{% if passed %}success{% else %}warning{% endif %}"><div class="card-body text-center">
+  <h1 class="text-{% if passed %}success{% else %}warning{% endif %}">{% if passed %}Congratulations!{% else %}Keep practising!{% endif %}</h1>
+  <p class="lead">You scored <strong>{{ score }}%</strong> on {{ course.name }}.</p>
+  <hr><h2 class="h4 text-start">Exam results</h2>
+  <div class="text-start">{% for question in course.question_set.all %}<div class="mb-3 p-3 border rounded"><strong>{{ forloop.counter }}. {{ question.question_text }}</strong><br><span class="text-success">Correct answer: {% for choice in question.choice_set.all %}{% if choice.is_correct %}{{ choice.choice_text }}{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}</span></div>{% endfor %}</div>
+  <a class="btn btn-primary" href="{% url 'onlinecourse:course_details' course.id %}">Try again</a>
+</div></div>
+{% endblock %}
